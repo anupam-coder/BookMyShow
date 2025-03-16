@@ -2,23 +2,28 @@ const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const app = express();
-app.use(cors({
-    origin: "*",
-    methods: ["GET,PUT,PATCH,POST,DELETE"],
-    allowedHeaders: ["content-type","Authorization"]
-}));
+app.use(
+  cors({
+    origin: [
+      "*",
+      "https://bookmyshow-u020.onrender.com",
+      "https://sunny-speculoos-459c93.netlify.app",
+    ],
+    methods: ["GET", "PUT", "PATCH", "POST", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 const clientBuildPath = path.join(__dirname, "../client/build");
 console.log("clientBuildPath", clientBuildPath);
 app.use(express.static(clientBuildPath));
-require("dotenv").config() //load environment variables
+require("dotenv").config(); //load environment variables
 
-
-const connectDB = require('./config/db');
+const connectDB = require("./config/db");
 const usersRouter = require("./routes/userRoutes");
 const movieRouter = require("./routes/movieRoutes");
 const theatreRouter = require("./routes/theatreRoutes");
 const showRouter = require("./routes/showRoutes");
-const bookingRouter = require("./routes/bookingRoutes")
+const bookingRouter = require("./routes/bookingRoutes");
 
 connectDB();
 
@@ -27,8 +32,8 @@ app.use("/api/users", usersRouter);
 app.use("/api/movies", movieRouter);
 app.use("/api/theatres", theatreRouter);
 app.use("/api/shows", showRouter);
-app.use("/api/bookings", bookingRouter)
+app.use("/api/bookings", bookingRouter);
 
-app.listen(8082, ()=>{
-    console.log("Server is running on port 8082");
+app.listen(8082, () => {
+  console.log("Server is running on port 8082");
 });
